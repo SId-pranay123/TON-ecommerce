@@ -6,8 +6,9 @@ import { setItemContentCell } from './nftContent/onChain';
 const randomSeed= Math.floor(Math.random() * 10000);
 
 export async function run(provider: NetworkProvider, args: string[]) {
+    console.log("Minting new item...")
     const ui = provider.ui();
-
+    console.log("this is run from mint ")
     const address = Address.parse(args.length > 0 ? args[0] : await ui.input('Collection address'));
 
     const nftCollection = provider.open(NftCollection.createFromAddress(address));

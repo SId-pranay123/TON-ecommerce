@@ -7,6 +7,7 @@ const randomSeed= Math.floor(Math.random() * 10000);
 
 // Deploys collection and mints one item to the address of the 
 export async function run(provider: NetworkProvider) {
+    console.log("Deploying NFT Collection... this is run function")
     const nftCollection = provider.open(NftCollection.createFromConfig({
         ownerAddress: provider.sender().address!!, 
         nextItemIndex: 0,

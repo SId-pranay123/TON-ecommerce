@@ -69,7 +69,6 @@ export class NftCollection implements Contract {
             itemIndex: number;
             itemOwnerAddress: Address;
             itemContent: Cell;
-           
         }
         ) {
             const nftMessage = beginCell();
