@@ -7,9 +7,10 @@ import {
     ContractProvider, 
     Sender, 
     SendMode,
+    toNano,
     TupleItemInt, 
 } from '@ton/core';
-
+import { OpCodes } from './utils/opCodes';
 
 export type RoyaltyParams = {
     royaltyFactor: number;
@@ -129,4 +130,32 @@ export class NftCollection implements Contract {
         return itemAddress;
     }
 
+    async sendTransferItemMsg(
+        provider: ContractProvider, 
+        via: Sender,
+        opts: {
+            queryId: number;
+            newOwner: Address;
+            itemAddress: Address;
+            responseAddress: Address;
+            fwdAmount?: bigint;
+        }
+    ) {
+        await provider.internal(via, {
+            value: toNano('0.05'),
+            sendMode: SendMode.PAY_GAS_SEPARATELY,
+            body: beginCell()
+                .storeUint(OpCodes.transferItem, 32)
+                .storeUint(opts.queryId, 64)
+                .storeAddress(opts.itemAddress)
+                .storeAddress(opts.newOwner)
+                .storeAddress(opts.responseAddress)
+                .storeCoins(opts.fwdAmount || 0)
+            .endCell(),
+        });
+    }
+
 }
+
+
+
